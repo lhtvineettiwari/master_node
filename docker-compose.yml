@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  master-node:
+    container_name: master-node
+    image: "vineetleeway/cosmos:v1"
+    ports:
+      - "26656-26657:26656-26657"
+      - "1317:1317"
+      - "9090:9090"
+    entrypoint: 
+      - bash
+      - -c  
+      - |
+        /run_master.sh
+    volumes:
+      - $PWD/run_master.sh:/root/run_master.sh
+
+    networks:
+      devnet:
+        ipv4_address: 192.168.21.2
+
+networks:
+  devnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 192.168.21.0/24
