@@ -10,7 +10,9 @@ services:
       - "9090:9090"
     volumes:
       - $PWD/run_master.sh:/root/run_master.sh
-
+    entrypoint: 
+      - /bin/sh
+      - /root/run_master.sh
     networks:
       devnet:
         ipv4_address: 192.168.21.2
