@@ -8,11 +8,6 @@ services:
       - "26656-26657:26656-26657"
       - "1317:1317"
       - "9090:9090"
-    entrypoint: 
-      - bash
-      - -c  
-      - |
-        /run_master.sh
     volumes:
       - $PWD/run_master.sh:/root/run_master.sh
 

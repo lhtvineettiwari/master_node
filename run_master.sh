@@ -3,7 +3,7 @@ STAKE=${STAKE_TOKEN:-stake}
 CHAIN_ID=${CHAIN_ID:-testnet}
 MONIKER=${MONIKER:-node0}
 echo "accounts Generating..."
-names=( bob alice harry grandpa)
+names=( bob alice harry grandpa )
 for account_names in "${names[@]}"
   do
      simd keys add "$account_names" $KEYRING
