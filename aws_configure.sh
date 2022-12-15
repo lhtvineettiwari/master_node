@@ -1,3 +1,7 @@
 #!/bin/bash
-aws configure set aws_access_key_id AKIARUJTUIQAP6BBPWOP;
-aws configure set aws_secret_access_key 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;
+AWS_ACCESS_KEY=AKIARUJTUIQAP6BBPWOP
+AWS_SECRET=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
+REGION=us-east-1
+aws configure set aws_access_key_id $AWS_ACCESS_KEY;
+aws configure set aws_secret_access_key $AWS_SECRET;
+aws configure set region $REGION;
