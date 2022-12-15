@@ -1,15 +1,26 @@
 #!/bin/bash 
 set -e
-if [ "$#" -lt 1 ]; then 
-  echo "Usage: $0 GIT_BRANCH"    
+if [ "$#" -lt 5 ]; then 
+  echo "Usage: $1 GIT_BRANCH" 
+  echo "Usage: $2 AWS_ACCESS_KEY"
+  echo "Usage: $3 AWS_SECRET"
+  echo "Usage: $4 AWS_REGION"
+  echo "Usage: $5 APP_ID"   
+
 exit 1
 fi
 GIT_BRANCH="$1"
+AWS_ACCESS_KEY="$2"
+AWS_SECRET="$3"
+REGION="$4"
 echo Git Branch: "$GIT_BRANCH"
 apk add curl
 apk add jq
 apk add aws-cli
-source ./aws_configure.sh
+aws configure set aws_access_key_id $AWS_ACCESS_KEY;
+aws configure set aws_secret_access_key $AWS_SECRET;
+aws configure set region $REGION;
+
 KEYRING="--keyring-backend test"
 CHAIN_ID=${CHAIN_ID:-testnet}
 MONIKER=${MONIKER:-node0-master}
@@ -31,7 +42,6 @@ SECRET_BLOB_PATH="fileb://mnemonic_keys.txt"
 REGION=us-east-1
 
 aws kms encrypt --key-id ${KEY_ID} --plaintext ${SECRET_BLOB_PATH} --query CiphertextBlob --region ${REGION} > Encrypteddatafile.base64
-cat Encrypteddatafile.base64 | base64 -d > Encrypteddatafile
 ## Accounts Operations --------------------------------
 echo "Genesis accounts saved successfully to ..."
 curl https://raw.githubusercontent.com/lhtvineettiwari/genesis/{$GIT_BRANCH}/stake.json > stake.json

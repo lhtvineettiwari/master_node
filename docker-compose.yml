@@ -12,9 +12,13 @@ services:
     volumes:
       - $PWD/run_master.sh:/root/run_master.sh
       - $PWD/aws_configure.sh:/root/aws_configure.sh
-    command: /bin/sh run_master.sh $TENANT_BRANCH 
+    command: /bin/sh run_master.sh $TENANT_BRANCH $AWS_KEY $AWS_SECRET $REGION $APP_ID
     environment:
       - "TENANT_BRANCH=${TENANT_BRANCH}"
+      - "AWS_KEY=${AWS_KEY}"
+      - "AWS_SECRET=${AWS_SECRET}"
+      - "REGION=${REGION}"
+      - "APP_ID=${APP_ID}"
     networks:
       devnet:
         ipv4_address: 192.168.21.2
