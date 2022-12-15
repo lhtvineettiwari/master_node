@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/sh 
 set -e
 if [ "$#" -lt 5 ]; then 
   echo "Usage: $1 GIT_BRANCH" 
