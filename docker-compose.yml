@@ -3,16 +3,18 @@ version: '3'
 services:
   master-node:
     container_name: master-node
-    image: "vineetleeway/cosmos:v1"
+    image: "vineetleeway/cosmos:v3"
     ports:
-      - "26656-26657:26656-26657"
+      - "26656:26656"
+      - "26657:26657"
       - "1317:1317"
       - "9090:9090"
     volumes:
       - $PWD/run_master.sh:/root/run_master.sh
-    entrypoint: 
-      - /bin/sh
-      - /root/run_master.sh
+      - $PWD/aws_configure.sh:/root/aws_configure.sh
+    command: /bin/sh run_master.sh $TENANT_BRANCH 
+    environment:
+      - "TENANT_BRANCH=${TENANT_BRANCH}"
     networks:
       devnet:
         ipv4_address: 192.168.21.2
