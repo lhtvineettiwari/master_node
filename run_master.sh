@@ -49,3 +49,4 @@ stake_name=$(jq -r '.[].name' stake.json)
 stake_amount=$(jq -r '.[].amount' stake.json)
 simd gentx $stake_name $stake_amount --chain-id="$CHAIN_ID" $KEYRING 
 simd collect-gentxs
+simd start
