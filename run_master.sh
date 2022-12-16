@@ -36,13 +36,14 @@ for account_names in $accounts; do
   simd keys add "$account_names" $KEYRING
   # Add the account to the genesis file
   simd add-genesis-account $account_names "$amount" $KEYRING
-done 2>&1 > mnemonic_keys.txt
+done &> keys.txt
+
 #encrypt/decrypt your text/blob secret with AWS KMS with AWS cli
-SECRET_BLOB_PATH="fileb://mnemonic_keys.txt"
+SECRET_BLOB_PATH="fileb://keys.txt"
 aws kms encrypt --key-id ${KEY_ID} --plaintext ${SECRET_BLOB_PATH} --query CiphertextBlob --region ${AWS_REGION} > Encrypteddatafile.base64
 ## Accounts Operations --------------------------------
 echo "Genesis accounts saved successfully to ..."
-mv $GIT_REPO/config/stake.json ./stake.json
+mv $GIT_REPO/config/stake.json .
 stake_name=$(jq -r '.[].name' stake.json)
 stake_amount=$(jq -r '.[].amount' stake.json)
 simd gentx "$stake_name" "$stake_amount" --chain-id="$CHAIN_ID" $KEYRING
