@@ -28,11 +28,15 @@ mv /root/$GIT_REPO/config/genesis.json /root/.simapp/config/genesis.json
 mv $GIT_REPO/config/accounts.json  ./accounts.json
 accounts=$(jq -r '.[].name' accounts.json)
 echo $accounts
+# Iterate over each account in the accounts.json file
 for account_names in $accounts; do
-amount=$(jq -r '.[] | select(.name == "'$account_names'") | .amount' accounts.json)
+  # Get the amount for the current account
+  amount=$(jq -r '.[] | select(.name == "'$account_names'") | .amount' accounts.json)
+  # Add the account to the keystore
   simd keys add "$account_names" $KEYRING
+  # Add the account to the genesis file
   simd add-genesis-account $account_names "$amount" $KEYRING
-done &> mnemonic_keys.txt
+done 2>&1 > mnemonic_keys.txt
 #encrypt/decrypt your text/blob secret with AWS KMS with AWS cli
 SECRET_BLOB_PATH="fileb://mnemonic_keys.txt"
 aws kms encrypt --key-id ${KEY_ID} --plaintext ${SECRET_BLOB_PATH} --query CiphertextBlob --region ${AWS_REGION} > Encrypteddatafile.base64
