@@ -33,7 +33,6 @@ amount=$(jq -r '.[] | select(.name == "'$account_names'") | .amount' accounts.js
 done &> mnemonic_keys.txt
 #encrypt/decrypt your text/blob secret with AWS KMS with AWS cli
 SECRET_BLOB_PATH="fileb://mnemonic_keys.txt"
-REGION=us-east-1
 aws kms encrypt --key-id ${KEY_ID} --plaintext ${SECRET_BLOB_PATH} --query CiphertextBlob --region ${REGION} > Encrypteddatafile.base64
 ## Accounts Operations --------------------------------
 echo "Genesis accounts saved successfully to ..."
