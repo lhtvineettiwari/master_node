@@ -1,15 +1,15 @@
 #!/bin/sh 
 set -e
-if [ -z $GIT_BRANCH ] || [ -z $AWS_ACCESS_KEY ] || [ -z$AWS_SECRET ] || [ -z $AWS_REGION ] || [ -z $APP_ID ] || [ -z $KEY_ID ]|| [ -z $MONIKER ]; then 
-  echo "Usage: $GIT_BRANCH" 
-  echo "Usage: $AWS_ACCESS_KEY"
-  echo "Usage: $AWS_SECRET"
-  echo "Usage: $AWS_REGION"
-  echo "Usage: $APP_ID"  
-  echo "Usage: $KEY_ID"
-  echo "Usage: $MONIKER"
-exit 1
-fi
+# if [ -z $GIT_BRANCH ] || [ -z $AWS_ACCESS_KEY ] || [ -z$AWS_SECRET ] || [ -z $AWS_REGION ] || [ -z $APP_ID ] || [ -z $KEY_ID ]|| [ -z $MONIKER ]; then 
+#   echo "Usage: $GIT_BRANCH" 
+#   echo "Usage: $AWS_ACCESS_KEY"
+#   echo "Usage: $AWS_SECRET"
+#   echo "Usage: $AWS_REGION"
+#   echo "Usage: $APP_ID"  
+#   echo "Usage: $KEY_ID"
+#   echo "Usage: $MONIKER"
+# exit 1
+# fi
 echo Git Branch: "$GIT_BRANCH"
 apk add curl
 apk add jq
