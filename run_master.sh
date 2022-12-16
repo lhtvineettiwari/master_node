@@ -19,11 +19,11 @@ aws configure set aws_secret_access_key $AWS_SECRET;
 aws configure set region $AWS_REGION;
 KEYRING="--keyring-backend test"
 # CHAIN_ID=${CHAIN_ID:-testnet}
+
 git clone https://$GIT_USERNAME:$GIT_APP_PASS@bitbucket.org/leewayhertz/$GIT_REPO.git -b $GIT_BRANCH 
-mv $GIT_REPO/config/genesis.json /root/.simapp/config/genesis.json
-CHAIN_ID=$(jq -r '.chain_id' /root/.simapp/config/genesis.json)
 simd config chain-id $CHAIN_ID
-simd init "$MONIKER" --chain-id $CHAIN_ID 
+simd init "$MONIKER" --chain-id $CHAIN_ID
+mv /root/$GIT_REPO/config/genesis.json /root/.simapp/config/genesis.json 
 # Accounts Generating and adding in to the genesis
 mv $GIT_REPO/config/accounts.json  ./accounts.json
 accounts=$(jq -r '.[].name' accounts.json)
