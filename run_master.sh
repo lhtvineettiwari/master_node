@@ -20,12 +20,12 @@ aws configure set region $AWS_REGION;
 KEYRING="--keyring-backend test"
 # CHAIN_ID=${CHAIN_ID:-testnet}
 git clone https://$GIT_USERNAME:$GIT_APP_PASS@bitbucket.org/leewayhertz/$GIT_REPO.git -b $GIT_BRANCH 
-cp $GIT_REPO/config/genesis.json /root/.simapp/config/genesis.json
-CHAIN_ID=$(jq -r '.chain_id' $GIT_REPO/config/genesis.json)
+mv $GIT_REPO/config/genesis.json /root/.simapp/config/genesis.json
+CHAIN_ID=$(jq -r '.chain_id' /root/.simapp/config/genesis.json)
 simd config chain-id $CHAIN_ID
 simd init "$MONIKER" --chain-id $CHAIN_ID 
 # Accounts Generating and adding in to the genesis
-cp $GIT_REPO/config/accounts.json  ./accounts.json
+mv $GIT_REPO/config/accounts.json  ./accounts.json
 accounts=$(jq -r '.[].name' accounts.json)
 echo $accounts_data
 echo $accounts
@@ -39,7 +39,7 @@ SECRET_BLOB_PATH="fileb://mnemonic_keys.txt"
 aws kms encrypt --key-id ${KEY_ID} --plaintext ${SECRET_BLOB_PATH} --query CiphertextBlob --region ${AWS_REGION} > Encrypteddatafile.base64
 ## Accounts Operations --------------------------------
 echo "Genesis accounts saved successfully to ..."
-cp $GIT_REPO/config/stake.json ./stake.json
+mv $GIT_REPO/config/stake.json ./stake.json
 stake_name=$(jq -r '.[].name' stake.json)
 stake_amount=$(jq -r '.[].amount' stake.json)
 simd gentx $stake_name $stake_amount --chain-id="$CHAIN_ID" $KEYRING 
