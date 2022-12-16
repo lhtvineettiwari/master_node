@@ -16,7 +16,7 @@ apk add jq
 apk add aws-cli
 aws configure set aws_access_key_id $AWS_ACCESS_KEY;
 aws configure set aws_secret_access_key $AWS_SECRET;
-aws configure set region $REGION;
+aws configure set region $AWS_REGION;
 KEYRING="--keyring-backend test"
 CHAIN_ID=${CHAIN_ID:-testnet}
 simd init "$MONIKER" --chain-id "$CHAIN_ID" 
@@ -33,7 +33,7 @@ amount=$(jq -r '.[] | select(.name == "'$account_names'") | .amount' accounts.js
 done &> mnemonic_keys.txt
 #encrypt/decrypt your text/blob secret with AWS KMS with AWS cli
 SECRET_BLOB_PATH="fileb://mnemonic_keys.txt"
-aws kms encrypt --key-id ${KEY_ID} --plaintext ${SECRET_BLOB_PATH} --query CiphertextBlob --region ${REGION} > Encrypteddatafile.base64
+aws kms encrypt --key-id ${KEY_ID} --plaintext ${SECRET_BLOB_PATH} --query CiphertextBlob --region ${AWS_REGION} > Encrypteddatafile.base64
 ## Accounts Operations --------------------------------
 echo "Genesis accounts saved successfully to ..."
 curl https://raw.githubusercontent.com/lhtvineettiwari/genesis/{$GIT_BRANCH}/stake.json > stake.json
